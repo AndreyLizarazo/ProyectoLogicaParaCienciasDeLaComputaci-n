@@ -100,7 +100,7 @@ def create_situation(dict):
 
 
     #AGREGA
-    #PRIMERA ILERA DEL GRAFO:
+    #ILERAS DEL GRAFO:
         #-fichas a,A:
     if a == 1 and A == 0:
         H.add_node('a',pos = (20,60))
