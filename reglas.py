@@ -179,7 +179,7 @@ def regla1():
     for (x,y) in letras:
         regla += r(x,y)
 
-    print(len(regla))
+
     regla += ")"
     final = regla[0:len(regla)-2]
     final += ")"
@@ -191,6 +191,5 @@ for i in e:
     t = i.upper()
     letras.append(i)
     letras.append(t)
-
 print(regla1())
-print(Tseitin(letras,regla1))
+print(Tseitin(regla1(),letras))
