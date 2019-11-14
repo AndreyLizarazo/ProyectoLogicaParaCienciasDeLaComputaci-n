@@ -26,17 +26,17 @@ def StringtoTree(A, letrasProposicionales):
     # Input: A, lista de caracteres con una formula escrita en notacion polaca inversa
              # letrasProposicionales, lista de letras proposicionales
     # Output: formula como tree
-    conectivos = ['-', 'v', '&', '>']
+    conectivos = ['-', 'O', 'Y', '>','=']
     pila = []
     for c in A:
         if c not in conectivos and c in letrasProposicionales:
             pila.append(Tree(c,None,None))
         else :
-            if c == '~':
+            if c == '-':
                 formulaAux = Tree(c, None, pila[-1])
                 del pila[-1]
                 pila.append(formulaAux)
-            elif c in conectivos and c != '~':
+            elif c in conectivos and c != '-':
                 formulaAux = Tree(c, pila[-1], pila[-2])
                 del pila[-1]
                 del pila[-1]
