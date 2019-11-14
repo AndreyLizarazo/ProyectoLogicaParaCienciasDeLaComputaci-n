@@ -260,8 +260,10 @@ def regla3():
 
 
 """ tratar de hacer reglas en polaca"""
-print(regla3())
-print(regla1())
+print("Regla 3:", "\n")
+print(regla3(),"\n")
+print("Regla 1:", "\n")
+print(regla1(),"\n")
 x = atomos()
 print(Tseitin(regla1(),x))
 print(Tseitin(regla3(),x))
