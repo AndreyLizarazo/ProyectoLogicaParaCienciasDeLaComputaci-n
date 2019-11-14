@@ -1,6 +1,16 @@
+
+def atomos():
+    e = "xbcdefghijklmnop"
+    letras = []
+    for i in e:
+        t = i.upper()
+        letras.append(i)
+        letras.append(t)
+    return letras
+
 def Tseitin(A, letrasProposicionalesA):
     letrasProposicionalesB = [chr(x) for x in range(256, 300)]
-    assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB)))
+    #assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB)))
     L = []
     Pila = [] # Inicializamos pila
     i = -1 # Inicializamos contador de variables nuevas
@@ -185,11 +195,26 @@ def regla1():
     final += ")"
     return final
 
-e = "abcdefghijklmnop"
-letras = []
-for i in e:
-    t = i.upper()
-    letras.append(i)
-    letras.append(t)
+
+
+
+molino1 = "(((aY-A)Y(bY-B)Y(cY-C))O((-aYA)Y(-bYB)Y(-cYC)))"
+molino2 = "(((aY-A)Y(dY-D)Y(nY-N))O((-aYA)Y(-dYD)Y(-nYN)))"
+molino3 = "(((cY-C)Y(jY-J)Y(pY-P))O((-cYC)Y(-jYJ)Y(-pYP)))"
+molino4 = "(((nY-N)Y(oY-O)Y(pY-P))O((-nYN)Y(-oYO)Y(-pYP)))"
+molino5 = "(((eY-E)Y(fY-F)Y(gY-G))O((-eYE)Y(-fYF)Y(-gYG)))"
+molino6 = "(((eY-E)Y(hY-H)Y(kY-K))O((-eYE)Y(-hYH)Y(-kYK)))"
+molino7 = "(((gY-G)Y(iY-I)Y(mY-M))O((-gYG)Y(-iYI)Y(-mYM)))"
+molino8 = "(((kY-K)Y(lY-L)Y(mY-M))O((-kYK)Y(-lYL)Y(-mYM)))"
+
+def regla3():
+    regla = "(" + molino1 + "O" + molino2 + "O" + molino3 +  "O" + molino4 + "O" + molino5 + "O" + molino6 + "O" + molino7 + "O" + molino8 + ")"
+    return regla
+
+
+""" tratar de hacer reglas en polaca"""
+print(regla3())
 print(regla1())
-print(Tseitin(regla1(),letras))
+x = atomos()
+print(Tseitin(regla1(),x))
+print(Tseitin(regla3(),x))
