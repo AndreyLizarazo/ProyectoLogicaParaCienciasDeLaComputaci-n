@@ -257,11 +257,24 @@ molino8 = "(((kY-K)Y(lY-L)Y(mY-M))O((-kYK)Y(-lYL)Y(-mYM)))"
 def regla3():
     regla = "(" + molino1 + "O" + molino2 + "O" + molino3 +  "O" + molino4 + "O" + molino5 + "O" + molino6 + "O" + molino7 + "O" + molino8 + ")"
     return regla
+def ClausulaRegla3():
+    a = regla1()
+    print(a)
+    z = ""
+    for i in a:
+         if i not in "()":
+             z += i
 
+    #print(z)
+    print( formaClausal(z))
 
 """ tratar de hacer reglas en polaca"""
-print(regla3())
-print(regla1())
-x = atomos()
-print(Tseitin(regla1(),x))
-print(Tseitin(regla3(),x))
+#print("Regla 3:", "\n")
+#print(regla3(),"\n")
+#print("Regla 1:", "\n")
+#print(regla1(),"\n")
+#x = atomos()
+#print(Tseitin(regla1(),x))
+#print(Tseitin(regla3(),x))
+print(Clausula(regla1()))
+ClausulaRegla3()
