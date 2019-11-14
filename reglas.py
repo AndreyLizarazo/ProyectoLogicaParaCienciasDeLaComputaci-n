@@ -1,6 +1,53 @@
+# -*- coding: utf-8 -*-
+
+conectivosB = ["O","Y",">","="]
+
+class Tree(object):
+	def __init__(self, r, iz, der):
+		self.left = iz
+		self.right = der
+		self.label = r
+
+def Inorder(f):
+    # Imprime una formula como cadena dada una formula como arbol
+    # Input: tree, que es una formula de logica proposicional
+    # Output: string de la formula
+
+    if f.right == None:
+        return f.label
+    elif f.label == '~':
+        return f.label + Inorder(f.right)
+    else:
+        return "(" + Inorder(f.left) + f.label + Inorder(f.right) + ")"
+
+
+def StringtoTree(A, letrasProposicionales):
+    # Crea una formula Inorder(StringtoTree(regla,letras))como tree dada una formula como cadena escrita en notacion polaca inversa
+    # Input: A, lista de caracteres con una formula escrita en notacion polaca inversa
+             # letrasProposicionales, lista de letras proposicionales
+    # Output: formula como tree
+    conectivos = ['-', 'v', '&', '>']
+    pila = []
+    for c in A:
+        if c not in conectivos and c in letrasProposicionales:
+            pila.append(Tree(c,None,None))
+        else :
+            if c == '~':
+                formulaAux = Tree(c, None, pila[-1])
+                del pila[-1]
+                pila.append(formulaAux)
+            elif c in conectivos and c != '~':
+                formulaAux = Tree(c, pila[-1], pila[-2])
+                del pila[-1]
+                del pila[-1]
+                pila.append(formulaAux)
+    return pila[-1]
+
+
+
 
 def atomos():
-    e = "xbcdefghijklmnop"
+    e = "abcdefghijklmnop"
     letras = []
     for i in e:
         t = i.upper()
