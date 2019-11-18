@@ -56,49 +56,54 @@ def atomos():
     return letras
 
 def Tseitin(A, letrasProposicionalesA):
-    letrasProposicionalesB = [chr(x) for x in range(256, 300)]
-    #assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB)))
-    L = []
-    Pila = [] # Inicializamos pila
-    i = -1 # Inicializamos contador de variables nuevas
-    s = A[0] # Inicializamos sımbolo de trabajo
-    while (len(A) > 0):
-        if s in letrasProposicionalesA and Pila[-1] =='-':
-            i += 1
-            atomo = letrasProposicionalesB[i]
-            Pila = Pila[:-1]
-            Pila.append(atomo)
-            L.append(atomo + '=' + '-' + s)
-            A = A[0]
-            s = A[0]
-            if len(A) > 0:
-                s = A[0]
-        elif s == ')':
-            w = Pila[-1]
-            O = Pila[-2]
-            v = Pila[-3]
-            Pila = Pila[:len(Pila)-4]
-            i += 1
-            atomo = letrasProposicionalesB[i]
-            L.append(atomo +"="+"(" + v + O + w + ")")
-            s = atomo
-        else:
-            Pila.append(s)
-            A = A[1:]
-            if len(A) > 0:
-                s = A[0]
+	letrasProposicionalesB = [chr(x) for x in range(256, 1000)]
+	#assert(not bool(set(letrasProposicionalesA) & set(letrasProposicionalesB)))
+	L = []
+	Pila = [] # Inicializamos pila
+	i = -1 # Inicializamos contador de variables nuevas
+	s = A[0] # Inicializamos sımbolo de trabajo
+	atomos = letrasProposicionalesA + letrasProposicionalesB
+	while (len(A) > 0):
+		#print('A', A, ' L', L, ' Pila', Pila, ' i', i, ' s', s)
+		if s in atomos and len(Pila)>0 and Pila[-1] =='-':
+			i += 1
+			atomo = letrasProposicionalesB[i]
+			Pila = Pila[:-1]
+			Pila.append(atomo)
+			L.append(atomo + '=' + '-' + s)
+			A = A[1:]
+			if len(A) > 0:
+				s = A[0]
 
-    B = ""
-    if i < 0:
-        atomo = Pila[-1]
-    else:
-        atomo = letrasProposicionalesB[i]
-    for x in L:
-        y = enFNC(x)
-        B += "Y" + y
+		elif s == ')':
+			w = Pila[-1]
+			O = Pila[-2]
+			v = Pila[-3]
+			Pila = Pila[:len(Pila)-4]
+			i += 1
+			atomo = letrasProposicionalesB[i]
+			L.append(atomo +"="+"(" + v + O + w + ")")
+			s = atomo
 
-    B = atomo + B
-    return B
+		else:
+			Pila.append(s)
+			A = A[1:]
+			if len(A) > 0:
+				s = A[0]
+			#print('A', A)
+
+	B = ""
+	if i < 0:
+		atomo = Pila[-1]
+	else:
+		atomo = letrasProposicionalesB[i]
+
+	for x in L:
+		y = enFNC(x)
+		B += "Y" + y
+
+	B = atomo + B
+	return B
 
 
 # Output: B (cadena), equivalente en FNC
@@ -245,18 +250,24 @@ def regla1():
 
 
 
-molino1 = "(((aY-A)Y(bY-B)Y(cY-C))O((-aYA)Y(-bYB)Y(-cYC)))"
-molino2 = "(((aY-A)Y(dY-D)Y(nY-N))O((-aYA)Y(-dYD)Y(-nYN)))"
-molino3 = "(((cY-C)Y(jY-J)Y(pY-P))O((-cYC)Y(-jYJ)Y(-pYP)))"
-molino4 = "(((nY-N)Y(oY-O)Y(pY-P))O((-nYN)Y(-oYO)Y(-pYP)))"
-molino5 = "(((eY-E)Y(fY-F)Y(gY-G))O((-eYE)Y(-fYF)Y(-gYG)))"
-molino6 = "(((eY-E)Y(hY-H)Y(kY-K))O((-eYE)Y(-hYH)Y(-kYK)))"
-molino7 = "(((gY-G)Y(iY-I)Y(mY-M))O((-gYG)Y(-iYI)Y(-mYM)))"
-molino8 = "(((kY-K)Y(lY-L)Y(mY-M))O((-kYK)Y(-lYL)Y(-mYM)))"
+molino1 = "((((aY-A)Y(bY-B))Y(cY-C))O(((-aYA)Y(-bYB))Y(-cYC)))"
+molino2 = "((((aY-A)Y(dY-D))Y(nY-N))O(((-aYA)Y(-dYD))Y(-nYN)))"
+molino3 = "((((cY-C)Y(jY-J))Y(pY-P))O(((-cYC)Y(-jYJ))Y(-pYP)))"
+molino4 = "((((nY-N)Y(oY-O))Y(pY-P))O(((-nYN)Y(-oYO))Y(-pYP)))"
+molino5 = "((((eY-E)Y(fY-F))Y(gY-G))O(((-eYE)Y(-fYF))Y(-gYG)))"
+molino6 = "((((eY-E)Y(hY-H))Y(kY-K))O(((-eYE)Y(-hYH))Y(-kYK)))"
+molino7 = "(((gY-G)Y((iY-I)Y(mY-M)))O((-gYG)Y((-iYI)Y(-mYM))))"
+molino8 = "((((kY-K)Y(lY-L))Y(mY-M))O(((-kYK)Y(-lYL))Y(-mYM)))"
 
 def regla3():
-    regla = "(" + molino1 + "O" + molino2 + "O" + molino3 +  "O" + molino4 + "O" + molino5 + "O" + molino6 + "O" + molino7 + "O" + molino8 + ")"
-    return regla
+	r1 = "(" +molino1+"O"+ molino2+"O"+")"
+	r2= "("+r1+"O"+molino3+")"
+	r3= "("+r2+"O"+molino4+")"
+	r4= "("+r3+"O"+molino5+")"
+	r5= "("+r4+"O"+molino6+")"
+	r6= "("+r5+"O"+molino7+")"
+	regla= "("+r6+"O"+molino8+")"
+	return regla
 def ClausulaRegla3():
     a = regla1()
     print(a)
@@ -271,11 +282,16 @@ def ClausulaRegla3():
 """ tratar de hacer reglas en polaca"""
 #print("Regla 3:", "\n")
 #print(regla3(),"\n")
-#print("Regla 1:", "\n")
-#print(regla1(),"\n")
-#x = atomos()
-#print(Tseitin(regla1(),x))
-#print(Tseitin(regla3(),x))
-print(Clausula(regla1()))
-ClausulaRegla3()
+# print("Regla 1:", "\n")
+# print(regla1(),"\n")
+x = atomos()
+# print(Tseitin(regla1(),x))
+# print(Tseitin(regla3(),x))
+#print(Clausula(regla1()))
+#ClausulaRegla3()
 
+formula = '-(a>b)'
+#tseit = Tseitin(formula, x)
+#print('Tseitin:', tseit)
+z = regla3()
+forma = Tseitin(z,x)
